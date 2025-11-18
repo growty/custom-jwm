@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # =============================
-# Universal Debian + JWM Setup
+# Universal Debian + JWM Setup (Minimal)
 # =============================
 
 # -------- VARIABLES --------
@@ -10,6 +10,7 @@ GIT_REPO="https://github.com/growty/custom-jwm.git"
 CLONE_DIR="$USER_HOME/custom-jwm"
 
 APT_PACKAGES=(
+    # Lightweight desktop / JWM
     lxterminal
     pcmanfm
     brightnessctl
@@ -18,13 +19,6 @@ APT_PACKAGES=(
     lxpanel
     x11-xkb-utils
     lxdm
-    firmware-sof-signed
-    firmware-iwlwifi
-    xserver-xorg
-    xserver-xorg-core
-    xserver-xorg-input-all
-    xserver-xorg-video-all
-    xfonts-base
     jwm
     feh
     x11-xserver-utils
@@ -32,9 +26,12 @@ APT_PACKAGES=(
     volumeicon-alsa
     picom
     xfce4-power-manager
-    # Audio packages only installed, no reload
+    # Audio only
     pulseaudio
     pulseaudio-utils
+    # Firmware
+    firmware-sof-signed
+    firmware-iwlwifi
 )
 
 GREEN="\e[32m"
@@ -50,14 +47,14 @@ echo -e "${GREEN}Adding contrib and non-free repositories...${RESET}"
 sudo sed -i '/^deb / s/$/ contrib non-free/' /etc/apt/sources.list
 sudo apt update -y
 
-# -------- INSTALL PACKAGES --------
-echo -e "${GREEN}Installing required packages...${RESET}"
+# -------- INSTALL PACKAGES (MINIMAL) --------
+echo -e "${GREEN}Installing required packages (minimal)...${RESET}"
 for pkg in "${APT_PACKAGES[@]}"; do
     if dpkg -s "$pkg" &> /dev/null; then
         echo -e "${YELLOW}✔ $pkg already installed, skipping...${RESET}"
     else
         echo -e "${GREEN}➜ Installing $pkg...${RESET}"
-        sudo apt install -y "$pkg"
+        sudo apt install -y --no-install-recommends "$pkg"
     fi
 done
 
