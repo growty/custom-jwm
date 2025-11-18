@@ -1,0 +1,11 @@
+pcm.dmic {
+    type plug
+    slave {
+        pcm "hw:0,99"
+        channels 4
+    }
+    ttable.0.0 0.25
+    ttable.1.0 0.25
+    ttable.2.0 0.25
+    ttable.3.0 0.25
+}
